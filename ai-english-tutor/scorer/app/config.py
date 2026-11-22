@@ -1,0 +1,101 @@
+from pydantic import BaseModel
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+
+# ── ASR ──────────────────────────────────────────────────────────────────────
+
+class WhisperXConfig(BaseModel):
+    model_size: str = "base"        # tiny / base / small / medium / large-v2
+    device: str = "cpu"             # cpu / cuda
+    compute_type: str = "int8"      # int8 / float16 / float32
+    language: str = "en"
+    batch_size: int = 16
+
+
+class ASRConfig(BaseModel):
+    backend: str = "whisperx"       # whisperx | (future: assemblyai, deepgram …)
+    whisperx: WhisperXConfig = WhisperXConfig()
+
+
+# ── Alignment ─────────────────────────────────────────────────────────────────
+
+class Wav2Vec2AlignmentConfig(BaseModel):
+    # 可选：强制对齐模型。留空表示不做强制对齐；需要时填入你自己的模型 ID。
+    model_id: str = ""
+    device: str = "cpu"
+    language: str = "en"
+
+
+class AlignmentConfig(BaseModel):
+    backend: str = "wav2vec2"       # wav2vec2 | (future: mfa …)
+    wav2vec2: Wav2Vec2AlignmentConfig = Wav2Vec2AlignmentConfig()
+
+
+# ── Scoring ───────────────────────────────────────────────────────────────────
+
+class PhonemeScoringConfig(BaseModel):
+    # 音素识别模型：本地目录优先，也可填 Hugging Face 模型 ID。
+    phoneme_model_id: str = "models/phoneme-model"
+    device: str = "cpu"
+    language: str = "en-us"          # espeak language code
+    # weights for the three dimensions
+    accuracy_weight: float = 0.5
+    fluency_weight: float = 0.3
+    completeness_weight: float = 0.2
+
+
+class ScoringConfig(BaseModel):
+    backend: str = "phoneme"        # phoneme | (future: speechbrain …)
+    phoneme: PhonemeScoringConfig = PhonemeScoringConfig()
+
+
+# ── LLM ──────────────────────────────────────────────────────────────────────
+
+class OpenAIConfig(BaseModel):
+    api_key: str = ""
+    model: str = "your-chat-model"
+    base_url: str = "https://your-llm-endpoint.example.com/v1"
+
+
+class OllamaConfig(BaseModel):
+    base_url: str = "http://localhost:11434"
+    model: str = "your-local-model"
+    num_ctx: int = 512          # context window; increase to 4096+ if think=True
+    think: bool = False         # enable local thinking mode (slower, higher quality)
+
+
+class LLMConfig(BaseModel):
+    backend: str = "openai"
+    openai: OpenAIConfig = OpenAIConfig()
+    ollama: OllamaConfig = OllamaConfig()
+
+
+# ── Storage ───────────────────────────────────────────────────────────────────
+
+class StorageConfig(BaseModel):
+    backend: str = "local"          # local | (future: s3 …)
+    local_dir: str = "storage"
+    # S3 config placeholder
+    s3_bucket: str = ""
+    s3_prefix: str = "audio/"
+
+
+# ── Top-level settings ────────────────────────────────────────────────────────
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_nested_delimiter="__",  # e.g. ASR__BACKEND=whisperx
+    )
+
+    database_url: str = "sqlite:///./scorer.db"
+    cors_origins: list[str] = ["http://localhost:5173"]
+
+    asr: ASRConfig = ASRConfig()
+    alignment: AlignmentConfig = AlignmentConfig()
+    scoring: ScoringConfig = ScoringConfig()
+    storage: StorageConfig = StorageConfig()
+    llm: LLMConfig = LLMConfig()
+
+
+settings = Settings()

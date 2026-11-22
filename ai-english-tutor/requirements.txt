@@ -1,0 +1,17 @@
+# Web 服务
+fastapi>=0.115,<1
+uvicorn[standard]>=0.34,<1
+python-multipart>=0.0.20
+httpx>=0.28,<1
+websockets>=15,<18
+pydantic>=2.7
+pydantic-settings>=2.2
+sqlalchemy>=2.0
+
+# 本地音素评分（CPU 即可）
+torch>=2.5
+torchaudio>=2.5
+transformers>=4.45
+soundfile>=0.12
+numpy>=1.26
+phonemizer>=3.2

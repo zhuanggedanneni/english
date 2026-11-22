@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN" data-type="software" data-radius="round">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="page-type" content="software">
+  <meta name="site-kind" content="software">
+  <meta name="theme-color" content="#fffdf9">
+  <meta name="description" content="面向高中生的 AI 英语外教：外教对话与背单词。">
+  <title>高中 AI 英语外教 · 今天，先开口</title>
+  <link rel="stylesheet" href="/styles.css?v=20261122e">
+  <script src="/app.js?v=20261122e" defer></script>
+  <script src="/conversation.js?v=20261122e" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到学习内容</a>
+  <svg class="svg-sprite" aria-hidden="true">
+    <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.8 12 3l9 7.8v9.1a1.1 1.1 0 0 1-1.1 1.1H15v-7H9v7H4.1A1.1 1.1 0 0 1 3 19.9Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20.5 11.5a8.5 8.5 0 0 1-12.7 7.4L3 20l1.2-4.6a8.5 8.5 0 1 1 16.3-3.9Z"/><path d="M8 11.5h8M8 8.5h5"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="8" y="2.5" width="8" height="13" rx="4"/><path d="M4.5 11.5a7.5 7.5 0 0 0 15 0M12 19v3M8.5 22h7"/></symbol>
+    <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M4 14v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="12" width="4" height="8" rx="2"/><rect x="17" y="12" width="4" height="8" rx="2"/></symbol>
+    <symbol id="i-cards" viewBox="0 0 24 24"><rect x="6" y="4" width="15" height="17" rx="2"/><path d="M6 8H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h11M10 9h7M10 13h7"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M14 6l6 6-6 6"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+    <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H11v18H6.5A2.5 2.5 0 0 0 4 22ZM20 4.5A2.5 2.5 0 0 0 17.5 2H13v18h4.5A2.5 2.5 0 0 1 20 22Z"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 12h2l2-6 3 13 3-17 3 14 2-7 2 3h1"/></symbol>
+    <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7Z"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/><circle cx="12" cy="13" r="3.8"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.1 8a7 7 0 0 1 11.8-1L20 9M4 15l2.1 2a7 7 0 0 0 11.8-1"/></symbol>
+  </svg>
+
+  <aside class="sidebar" aria-label="主导航">
+    <a class="brand" href="#conversation" data-route="conversation" aria-label="高中英语外教首页">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <strong>高中英语外教</strong>
+    </a>
+    <nav class="side-nav">
+      <a href="#conversation" data-route="conversation" class="nav-link is-active" aria-current="page"><svg><use href="#i-chat"/></svg><span>外教对话</span></a>
+      <a href="#quiz" data-route="quiz" class="nav-link"><svg><use href="#i-zap"/></svg><span>背单词</span></a>
+    </nav>
+    <section class="grammar-card" id="grammarCard" aria-live="polite" hidden>
+      <header class="grammar-head">
+        <span>本句语法</span>
+        <strong id="grammarScore">—</strong>
+      </header>
+      <p class="grammar-state" id="grammarState">等你说下一句</p>
+      <div class="grammar-issues" id="grammarIssues"></div>
+      <p class="grammar-rewrite" id="grammarRewrite" hidden></p>
+    </section>
+  </aside>
+
+  <main class="app-main" id="main">
+    <header class="topbar">
+      <a class="mobile-brand" href="#conversation" data-route="conversation"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><strong>英语外教</strong></a>
+      <div class="topbar-context"><span id="todayLabel"></span></div>
+      <div class="topbar-actions">
+        <button class="model-toggle" id="llmToggle" type="button" data-provider="deepseek" title="当前：DeepSeek API，点击切换到本地 Qwen">
+          <span class="model-dot" aria-hidden="true"></span><span id="llmToggleLabel">DeepSeek</span>
+        </button>
+        <label class="grade-picker" for="gradeSelect"><span>年级</span><select id="gradeSelect" aria-label="选择学习年级"><option value="高一">高一</option><option value="高二">高二</option><option value="高三">高三</option></select></label>
+      </div>
+    </header>
+    <div id="appAlert" class="app-alert" role="status" aria-live="polite" hidden></div>
+
+        <section class="view" id="view-conversation" data-view="conversation" aria-labelledby="conversationTitle" hidden>
+      <div id="conversationSetup">
+        <div class="page-heading"><div><h1 id="conversationTitle">选一个情景，直接开口说。</h1></div></div>
+        <div class="setup-grid">
+          <div>
+            <h2 class="section-label">预设情景</h2>
+            <div class="topic-list" id="topicList" role="radiogroup" aria-label="选择对话情景"></div>
+            <h2 class="section-label scene-custom-label">或者，自己写一个情景</h2>
+            <div class="scene-custom">
+              <textarea id="customScene" rows="2" maxlength="120" placeholder="例如：在咖啡店点单，店里很忙，我要一杯拿铁但希望少糖"></textarea>
+              <div class="scene-chips" id="sceneChips">
+                <button type="button" data-scene="在咖啡店点单，店里很忙，我要一杯拿铁但希望少糖">咖啡店改单</button>
+                <button type="button" data-scene="向刚认识的同学介绍自己的社团">社团介绍</button>
+                <button type="button" data-scene="跟老师解释昨天为什么没交作业">解释作业</button>
+              </div>
+            </div>
+          </div>
+          <aside class="setup-card">
+            <h2>本次练习</h2>
+            <fieldset class="field-group"><legend>对话时长</legend><div class="segmented" id="durationOptions">
+              <button data-duration="3" role="radio" aria-checked="false">3 分钟</button>
+              <button data-duration="5" role="radio" aria-checked="true" class="is-selected">5 分钟</button>
+              <button data-duration="10" role="radio" aria-checked="false">10 分钟</button>
+            </div></fieldset>
+            <label class="toggle-row" for="realtimeScore">
+              <input type="checkbox" id="realtimeScore" checked>
+              <span><strong>实时发音评估</strong></span>
+            </label>
+            <label class="toggle-row" for="translateReply">
+              <input type="checkbox" id="translateReply">
+              <span><strong>翻译外教的话</strong></span>
+            </label>
+            <button class="button button-primary full-button" id="startConversation">开始对话<svg><use href="#i-mic"/></svg></button>
+          </aside>
+        </div>
+      </div>
+
+      <div id="conversationLive" hidden>
+        <div class="live-heading"><div><p class="live-sub" id="liveTopicLabel">自由对话</p><h1 id="liveSceneTitle">和 AI 外教聊一聊</h1></div><div class="live-actions"><button class="pill-toggle" id="liveTranslate" aria-pressed="false">翻译</button><span class="live-state" id="liveState">准备中</span><button class="button button-outline" id="finishConversation">结束并评估</button></div></div>
+        <div class="conversation-layout">
+          <article class="chat-panel">
+            <div class="chat-scroll" id="chatMessages" aria-live="polite"></div>
+            <div class="record-desk">
+              <div class="transcript-wrap"><label for="liveTranscript">你说的</label><textarea id="liveTranscript" rows="2" placeholder="开口说，或直接打字"></textarea></div>
+              <div class="record-actions">
+                <button class="record-button is-recording" id="conversationRecord" aria-pressed="true"><span class="record-icon"><svg><use href="#i-mic"/></svg></span><span id="conversationRecordLabel">等待开始</span></button>
+                <button class="button button-dark" id="sendTurn">我说完了<svg><use href="#i-arrow"/></svg></button>
+              </div>
+            </div>
+          </article>
+          <aside class="session-panel">
+            <div class="timer-ring" id="timerRing"><div><strong id="timerText">05:00</strong><span>剩余时间</span></div></div>
+            <div class="session-tip score-tip">
+              <div class="score-tip-head"><span class="panel-label">本轮发音</span><label class="mini-toggle" for="liveRealtimeScore"><input type="checkbox" id="liveRealtimeScore" checked><span>实时评估</span></label></div>
+              <div id="liveScores"></div>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <div id="conversationReport" hidden>
+        <div class="page-heading"><div><p class="eyebrow">本次对话报告</p><h1>每一次开口，都有回响。</h1><p id="conversationReportSummary"></p></div><span class="demo-badge" id="conversationDemoBadge">演示报告</span></div>
+        <div class="report-grid">
+          <article class="report-score"><span class="tiny-label">本次完成度</span><strong id="conversationScore">—</strong><span id="conversationScoreUnit">完成练习后生成</span><div class="score-track"><i id="conversationScoreBar"></i></div></article>
+          <article class="report-metrics"><div><span>开口词数</span><strong id="reportWords">0</strong></div><div><span>保存音频</span><strong id="reportAudios">0</strong></div><div><span>表达表现</span><strong id="reportExpression">待评估</strong></div></article>
+        </div>
+        <article class="profile-card">
+          <div class="profile-head">
+            <span class="profile-badge"><svg><use href="#i-zap"/></svg></span>
+            <div><h2>你的英语画像</h2><p id="profileSummary">完成对话后生成。</p></div>
+          </div>
+          <div class="profile-dims" id="profileDims"></div>
+          <table class="profile-table">
+            <thead><tr><th>维度</th><th>分数</th><th>说明</th></tr></thead>
+            <tbody id="profileRows"></tbody>
+          </table>
+        </article>
+        <article class="pronunciation-note"><div class="note-icon"><svg><use href="#i-wave"/></svg></div><div><h2>发音与表达分开看</h2><p id="pronunciationSummary"></p><p class="microcopy">真实发音评测会基于每段学生音频输出准确度、完整度与流利度；演示模式不伪造这些结果。</p></div></article>
+        <div class="report-transcript"><h2>对话与录音</h2><div id="reportTurns"></div></div>
+        <div class="button-row"><button class="button button-primary" id="restartConversation">再练一次对话</button><button class="button button-outline" data-route="quiz">去背单词<svg><use href="#i-arrow"/></svg></button></div>
+      </div>
+    </section>
+
+                <section class="view" id="view-quiz" data-view="quiz" aria-labelledby="quizTitle" hidden>
+      <div id="quizSetup">
+        <div class="page-heading"><div><p class="eyebrow">词汇巩固 · 刷单词</p><h1 id="quizTitle">把记住，练成反应。</h1><p>从当前年级词库出题，三种方向轮换。答错的词会进入待复习。</p></div><span class="route-hint" id="quizGradeHint">高一 · 20 题</span></div>
+        <div class="quiz-setup-grid">
+          <div class="quiz-mode-list" role="radiogroup" aria-label="选择刷词方式">
+            <button class="quiz-mode is-selected" data-quiz-mode="adaptive" role="radio" aria-checked="true"><span class="quiz-mode-mark">AI</span><div><strong>智能混合</strong><small>系统根据每个词的掌握度，自动在英选中、中选英和默写之间切换。</small></div><svg><use href="#i-arrow"/></svg></button>
+            <button class="quiz-mode" data-quiz-mode="en-cn" role="radio" aria-checked="false"><span class="quiz-mode-mark">A</span><div><strong>英 → 中</strong><small>看到英文单词，选出正确的中文释义。</small></div><svg><use href="#i-arrow"/></svg></button>
+            <button class="quiz-mode" data-quiz-mode="cn-en" role="radio" aria-checked="false"><span class="quiz-mode-mark">B</span><div><strong>中 → 英</strong><small>看到中文释义，从四个英文单词中选出答案。</small></div><svg><use href="#i-arrow"/></svg></button>
+            <button class="quiz-mode" data-quiz-mode="write" role="radio" aria-checked="false"><span class="quiz-mode-mark">C</span><div><strong>看中文默写</strong><small>只给释义，手动拼出英文单词。最难，也最接近考试。</small></div><svg><use href="#i-arrow"/></svg></button>
+          </div>
+          <aside class="quiz-setup-card"><h2>本次设置</h2><fieldset class="field-group"><legend>题目数量</legend><div class="segmented" id="quizCountOptions"><button data-count="10" role="radio" aria-checked="false">10 题</button><button data-count="20" role="radio" aria-checked="true" class="is-selected">20 题</button><button data-count="30" role="radio" aria-checked="false">30 题</button></div></fieldset><fieldset class="field-group"><legend>出题范围</legend><div class="segmented quiz-scope-options" id="quizScopeOptions"><button data-scope="all" role="radio" aria-checked="true" class="is-selected">本年级</button><button data-scope="review" role="radio" aria-checked="false">待复习</button><button data-scope="scene" role="radio" aria-checked="false">本场情景</button></div></fieldset><button class="button button-primary full-button" id="startQuiz">开始刷词<svg><use href="#i-zap"/></svg></button><p class="microcopy" id="quizPoolHint">从当前年级词库随机抽题。</p></aside>
+        </div>
+      </div>
+      <div id="quizLive" hidden>
+        <div class="quiz-live-top"><div><p class="eyebrow" id="quizDirectionLabel">英 → 中</p><h1>看准，再作答。</h1></div><div class="quiz-live-tools"><label class="auto-toggle" for="quizAutoNext"><input id="quizAutoNext" type="checkbox" checked><span>答对自动跳题</span></label><div class="quiz-counter"><strong id="quizProgressText">1 / 20</strong><span>已答对 <b id="quizCorrectText">0</b> 题</span></div></div></div>
+        <div class="quiz-progress"><i id="quizProgressBar"></i></div>
+        <article class="quiz-card">
+          <div class="quiz-question" id="quizQuestion"></div>
+          <div class="quiz-audio-row" id="quizAudioRow"></div>
+          <div class="quiz-options" id="quizOptions"></div>
+          <form id="quizWriteForm" class="quiz-write" hidden novalidate><label for="quizWriteInput">写出对应的英文单词</label><input id="quizWriteInput" type="text" autocomplete="off" autocapitalize="none" spellcheck="false" placeholder="在这里拼写"><button class="button button-primary" type="submit">检查拼写<svg><use href="#i-check"/></svg></button></form>
+          <div class="quiz-feedback" id="quizFeedback" role="status" aria-live="polite" hidden></div>
+          <div class="quiz-next-row"><button class="button button-dark" id="quizNext" hidden>下一题<svg><use href="#i-arrow"/></svg></button><button class="text-button" id="quitQuiz">结束本轮</button></div>
+        </article>
+      </div>
+      <div id="quizResult" hidden>
+        <div class="page-heading"><div><p class="eyebrow">本轮完成</p><h1 id="quizResultTitle">这一轮，答完了。</h1><p id="quizResultSummary"></p></div></div>
+        <div class="quiz-result-grid"><article class="quiz-result-score"><span class="tiny-label">正确率</span><strong id="quizResultPercent">0%</strong><p><span id="quizResultCorrect">0</span> / <span id="quizResultTotal">0</span> 题正确</p></article><article class="quiz-result-wrong"><h2>需要再看一眼</h2><div id="quizWrongWords"></div></article></div>
+        <div class="button-row"><button class="button button-primary" id="retryWrongWords">再刷错词<svg><use href="#i-zap"/></svg></button><button class="button button-outline" data-route="conversation">去外教对话<svg><use href="#i-arrow"/></svg></button><button class="text-button" id="restartQuiz">重新设置一轮</button></div>
+      </div>
+    </section>
+
+  </main>
+
+  <section class="voice-assistant" id="voiceAssistant" aria-label="Echo 语音学习助手">
+    <div class="voice-panel" id="voicePanel" hidden>
+      <div class="voice-panel-head"><div><span class="tiny-label">ECHO · 语音学习助手</span><strong>说一句，我来带练</strong></div><button class="voice-panel-close" id="voicePanelClose" aria-label="收起语音助手">×</button></div>
+      <p class="voice-heard" id="voiceHeard">按空格键或点下方麦克风，然后直接说要练什么。</p>
+      <p class="voice-reply" id="voiceReply" role="status" aria-live="polite"></p>
+      <div class="voice-suggestions" id="voiceSuggestions"><button data-voice-command="开始今天的训练">开始今天的训练</button><button data-voice-command="为什么这样安排">为什么这样安排</button><button data-voice-command="免手刷题">免手刷题</button><button data-voice-command="智能刷十个单词">刷 10 个词</button><button data-voice-command="开始背单词">开始背单词</button><button data-voice-command="停止">停止</button></div>
+      <form class="voice-text-form" id="voiceTextForm"><label class="visually-hidden" for="voiceTextInput">输入语音指令</label><input id="voiceTextInput" type="text" autocomplete="off" placeholder="也可以在这里输入：开始智能训练"><button type="submit">执行</button></form>
+    </div>
+    <div class="voice-dock">
+      <span class="voice-hint">按 Space 说话</span>
+      <button class="voice-trigger" id="voiceTrigger" aria-pressed="false" aria-label="开始语音指令"><span class="voice-pulse" aria-hidden="true"></span><svg><use href="#i-mic"/></svg><span id="voiceTriggerLabel">语音助手</span></button>
+    </div>
+  </section>
+
+  
+
+  <nav class="mobile-nav" aria-label="移动端主导航">
+    <a href="#conversation" data-route="conversation" class="is-active"><svg><use href="#i-chat"/></svg><span>对话</span></a>
+    <a href="#quiz" data-route="quiz"><svg><use href="#i-zap"/></svg><span>背单词</span></a>
+  </nav>
+</body>
+</html>
